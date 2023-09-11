@@ -1,5 +1,7 @@
 package com.rest.rest.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.rest.rest.model.Employee;
@@ -18,6 +20,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.saveAndFlush(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
 }
