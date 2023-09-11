@@ -1,7 +1,6 @@
 package com.rest.rest.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,12 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-
-        if (employee.isPresent()) {
-            return employee.get();
-        } else {
-            throw new ResourceNotFoundException("Employee", "id", id);
-        }
+        return employeeRepository
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", id));
     }
 }
