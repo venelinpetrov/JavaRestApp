@@ -1,6 +1,7 @@
 package com.rest.rest.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository
             .findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", id));
+    }
+
+    @Override
+    public Employee updatEmployee(Employee employee, long id) {
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(
+            () -> new ResourceNotFoundException("Employee", "id", id)
+        );
+        // Note: this is equivalent to
+        //
+        // Optional.ofNullable(updatedEmployee.getFirstName()).ifPresent(firstName -> existingEmployee.setFirstName(firstName));
+        Optional.ofNullable(employee.getFirstName()).ifPresent(existingEmployee::setFirstName);
+        Optional.ofNullable(employee.getLastName()).ifPresent(existingEmployee::setLastName);
+        Optional.ofNullable(employee.getEmail()).ifPresent(existingEmployee::setEmail);
+
+        employeeRepository.save(existingEmployee);
+
+        return existingEmployee;
     }
 }
